@@ -1,0 +1,298 @@
+
+TPII ATMEGA8.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000154  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000001c8  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000004  00800060  00800060  000001c8  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000001c8  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001f8  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000050  00000000  00000000  00000234  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000063e  00000000  00000000  00000284  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 0000056e  00000000  00000000  000008c2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000002f1  00000000  00000000  00000e30  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000cc  00000000  00000000  00001124  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000322  00000000  00000000  000011f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000000f1  00000000  00000000  00001512  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000040  00000000  00000000  00001603  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	20 c0       	rjmp	.+64     	; 0x46 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+  14:	18 c0       	rjmp	.+48     	; 0x46 <__bad_interrupt>
+  16:	24 c0       	rjmp	.+72     	; 0x60 <__vector_11>
+  18:	16 c0       	rjmp	.+44     	; 0x46 <__bad_interrupt>
+  1a:	15 c0       	rjmp	.+42     	; 0x46 <__bad_interrupt>
+  1c:	14 c0       	rjmp	.+40     	; 0x46 <__bad_interrupt>
+  1e:	13 c0       	rjmp	.+38     	; 0x46 <__bad_interrupt>
+  20:	12 c0       	rjmp	.+36     	; 0x46 <__bad_interrupt>
+  22:	11 c0       	rjmp	.+34     	; 0x46 <__bad_interrupt>
+  24:	10 c0       	rjmp	.+32     	; 0x46 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	a4 36       	cpi	r26, 0x64	; 100
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	71 d0       	rcall	.+226    	; 0x126 <main>
+  44:	85 c0       	rjmp	.+266    	; 0x150 <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <USART_Init>:
+void USART_Transmit( unsigned char data )
+{
+	/* Wait for empty transmit buffer */
+	while ( !( UCSRA & (1<<UDRE)) );
+	/* Put data into buffer, sends the data */
+	UDR = data;
+  48:	90 bd       	out	0x20, r25	; 32
+  4a:	89 b9       	out	0x09, r24	; 9
+  4c:	5f 9a       	sbi	0x0b, 7	; 11
+  4e:	88 e9       	ldi	r24, 0x98	; 152
+  50:	8a b9       	out	0x0a, r24	; 10
+  52:	8e e8       	ldi	r24, 0x8E	; 142
+  54:	80 bd       	out	0x20, r24	; 32
+  56:	08 95       	ret
+
+00000058 <USART_Receive>:
+  58:	5f 9b       	sbis	0x0b, 7	; 11
+  5a:	fe cf       	rjmp	.-4      	; 0x58 <USART_Receive>
+  5c:	8c b1       	in	r24, 0x0c	; 12
+  5e:	08 95       	ret
+
+00000060 <__vector_11>:
+}
+
+ISR(USART_RXC_vect)
+{
+  60:	1f 92       	push	r1
+  62:	0f 92       	push	r0
+  64:	0f b6       	in	r0, 0x3f	; 63
+  66:	0f 92       	push	r0
+  68:	11 24       	eor	r1, r1
+  6a:	2f 93       	push	r18
+  6c:	3f 93       	push	r19
+  6e:	4f 93       	push	r20
+  70:	5f 93       	push	r21
+  72:	6f 93       	push	r22
+  74:	7f 93       	push	r23
+  76:	8f 93       	push	r24
+  78:	9f 93       	push	r25
+  7a:	af 93       	push	r26
+  7c:	bf 93       	push	r27
+  7e:	ef 93       	push	r30
+  80:	ff 93       	push	r31
+		val = USART_Receive();
+  82:	ea df       	rcall	.-44     	; 0x58 <USART_Receive>
+  84:	90 e0       	ldi	r25, 0x00	; 0
+  86:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
+  8a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+	for(counter = 0; counter < 10000; counter++)
+  8e:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <counter+0x1>
+  92:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <counter>
+	{
+		if(val == 65)
+  96:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
+  9a:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
+  9e:	81 34       	cpi	r24, 0x41	; 65
+  a0:	91 05       	cpc	r25, r1
+  a2:	41 f4       	brne	.+16     	; 0xb4 <__vector_11+0x54>
+		{
+			PORTB|=(1<<PB0);
+  a4:	c0 9a       	sbi	0x18, 0	; 24
+			OCR1A = ICR1 - 2100;
+  a6:	86 b5       	in	r24, 0x26	; 38
+  a8:	97 b5       	in	r25, 0x27	; 39
+  aa:	84 53       	subi	r24, 0x34	; 52
+  ac:	98 40       	sbci	r25, 0x08	; 8
+  ae:	9b bd       	out	0x2b, r25	; 43
+  b0:	8a bd       	out	0x2a, r24	; 42
+  b2:	07 c0       	rjmp	.+14     	; 0xc2 <__vector_11+0x62>
+		}
+		else
+		{
+			PORTB&=~(1<<PB0);
+  b4:	c0 98       	cbi	0x18, 0	; 24
+			OCR1A = ICR1 - 1200;
+  b6:	86 b5       	in	r24, 0x26	; 38
+  b8:	97 b5       	in	r25, 0x27	; 39
+  ba:	80 5b       	subi	r24, 0xB0	; 176
+  bc:	94 40       	sbci	r25, 0x04	; 4
+  be:	9b bd       	out	0x2b, r25	; 43
+  c0:	8a bd       	out	0x2a, r24	; 42
+}
+
+ISR(USART_RXC_vect)
+{
+		val = USART_Receive();
+	for(counter = 0; counter < 10000; counter++)
+  c2:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <counter>
+  c6:	90 91 63 00 	lds	r25, 0x0063	; 0x800063 <counter+0x1>
+  ca:	01 96       	adiw	r24, 0x01	; 1
+  cc:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <counter+0x1>
+  d0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <counter>
+  d4:	80 31       	cpi	r24, 0x10	; 16
+  d6:	97 42       	sbci	r25, 0x27	; 39
+  d8:	f0 f2       	brcs	.-68     	; 0x96 <__vector_11+0x36>
+		{
+			PORTB&=~(1<<PB0);
+			OCR1A = ICR1 - 1200;
+		}
+	}
+	counter = 0;
+  da:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <counter+0x1>
+  de:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <counter>
+}
+  e2:	ff 91       	pop	r31
+  e4:	ef 91       	pop	r30
+  e6:	bf 91       	pop	r27
+  e8:	af 91       	pop	r26
+  ea:	9f 91       	pop	r25
+  ec:	8f 91       	pop	r24
+  ee:	7f 91       	pop	r23
+  f0:	6f 91       	pop	r22
+  f2:	5f 91       	pop	r21
+  f4:	4f 91       	pop	r20
+  f6:	3f 91       	pop	r19
+  f8:	2f 91       	pop	r18
+  fa:	0f 90       	pop	r0
+  fc:	0f be       	out	0x3f, r0	; 63
+  fe:	0f 90       	pop	r0
+ 100:	1f 90       	pop	r1
+ 102:	18 95       	reti
+
+00000104 <setPWM>:
+
+
+void setPWM()
+{
+	TCCR1A |= (1<<COM1A1)|(1<<COM1A0)|(1<<WGM11);
+ 104:	8f b5       	in	r24, 0x2f	; 47
+ 106:	82 6c       	ori	r24, 0xC2	; 194
+ 108:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B |= (1<<WGM12) |(1<<WGM13)|(1<<CS10);
+ 10a:	8e b5       	in	r24, 0x2e	; 46
+ 10c:	89 61       	ori	r24, 0x19	; 25
+ 10e:	8e bd       	out	0x2e, r24	; 46
+	ICR1 = 19999;
+ 110:	8f e1       	ldi	r24, 0x1F	; 31
+ 112:	9e e4       	ldi	r25, 0x4E	; 78
+ 114:	97 bd       	out	0x27, r25	; 39
+ 116:	86 bd       	out	0x26, r24	; 38
+ 118:	08 95       	ret
+
+0000011a <setBuzzer>:
+}
+
+void setBuzzer()
+{
+	TCCR0 |=(0<<CS00)
+ 11a:	83 b7       	in	r24, 0x33	; 51
+ 11c:	83 bf       	out	0x33, r24	; 51
+	|(0<<CS01)
+	|(0<<CS02); //no prescaling
+		
+	TIMSK |=(1<<TOIE0);//enables overflow interrupt
+ 11e:	89 b7       	in	r24, 0x39	; 57
+ 120:	81 60       	ori	r24, 0x01	; 1
+ 122:	89 bf       	out	0x39, r24	; 57
+ 124:	08 95       	ret
+
+00000126 <main>:
+		
+}
+
+int main(void)
+{
+	DDRB |= (1<<DDB0);
+ 126:	b8 9a       	sbi	0x17, 0	; 23
+	DDRB |= (1<<DDB1); //pinMode(pinb0, OUTPUT);
+ 128:	b9 9a       	sbi	0x17, 1	; 23
+	DDRB |= (1<<DDB2); //pinMode(pinb2, OUTPUT);
+ 12a:	ba 9a       	sbi	0x17, 2	; 23
+	DDRD &= ~(1<<PD2);//Makes pin D2 as Input send data button
+ 12c:	8a 98       	cbi	0x11, 2	; 17
+	USART_Init(MYUBRR);
+ 12e:	8c e0       	ldi	r24, 0x0C	; 12
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	8a df       	rcall	.-236    	; 0x48 <USART_Init>
+	setPWM();
+ 134:	e7 df       	rcall	.-50     	; 0x104 <setPWM>
+	OCR1A = ICR1 - 1200; //sets Servo to 0º position
+ 136:	86 b5       	in	r24, 0x26	; 38
+ 138:	97 b5       	in	r25, 0x27	; 39
+ 13a:	80 5b       	subi	r24, 0xB0	; 176
+ 13c:	94 40       	sbci	r25, 0x04	; 4
+ 13e:	9b bd       	out	0x2b, r25	; 43
+ 140:	8a bd       	out	0x2a, r24	; 42
+	setBuzzer();
+ 142:	eb df       	rcall	.-42     	; 0x11a <setBuzzer>
+	sei();
+ 144:	78 94       	sei
+    /* Replace with your application code */
+    while (1) 
+    {
+		if(PIND&(1<<PD2))
+		{
+			UDR = 'C';
+ 146:	83 e4       	ldi	r24, 0x43	; 67
+	setBuzzer();
+	sei();
+    /* Replace with your application code */
+    while (1) 
+    {
+		if(PIND&(1<<PD2))
+ 148:	82 9b       	sbis	0x10, 2	; 16
+ 14a:	fe cf       	rjmp	.-4      	; 0x148 <main+0x22>
+		{
+			UDR = 'C';
+ 14c:	8c b9       	out	0x0c, r24	; 12
+ 14e:	fc cf       	rjmp	.-8      	; 0x148 <main+0x22>
+
+00000150 <_exit>:
+ 150:	f8 94       	cli
+
+00000152 <__stop_program>:
+ 152:	ff cf       	rjmp	.-2      	; 0x152 <__stop_program>
